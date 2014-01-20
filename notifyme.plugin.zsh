@@ -1,8 +1,6 @@
 NOTIFYME_IDLE_SEC=60
 
-get-idle-seconds () {
-    echo $(( $(sleepwatcher -g)/10 ))
-}
+
 
 function notifyme-remote() {
     for plugin_name in $NOTIFYME_REMOTE; do
@@ -20,7 +18,7 @@ function notifyme() {
     local NAME=$1
     local MESSAGE=$2
     notifyme-local $NAME $MESSAGE
-    if [ $(get-idle-seconds) -ge $NOTIFYME_IDLE_SEC ]; then
+    if _notifyme-is-idle; then
         notify-remote $NAME $MESSAGE
     fi
 }
@@ -43,12 +41,11 @@ function _notifyme-source-plugins() {
     set -A $2 $plugin_names
 }
 
-function _notifyme-init() {
+function {
+    source plugins/is.idle.zsh
     _notifyme-source-plugins 'local' NOTIFYME_LOCAL
     _notifyme-source-plugins 'remote' NOTIFYME_REMOTE
 }
 
-_notifyme-init
-
-unset -f _notifyme-init
+unset -f _notifyme-source-plugins
 unset -f _exists
