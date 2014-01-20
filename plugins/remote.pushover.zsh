@@ -1,5 +1,5 @@
 function notifyme-pushover() {
-    local MESSAGE="$1: $2"
+    local MESSAGE="$1 $2"
     if [ -n "$PUSHOVER_APP_TOKEN" -a -n "$PUSHOVER_USER_KEY" ]; then
         test ${#MESSAGE} -gt 0 || return 1
         curl -s \
@@ -10,6 +10,7 @@ function notifyme-pushover() {
     fi
 }
 
+# init
 function _notifyme-plugin() {
-    test -f ~/.PUSHOVER_TOKEN && source ~/.PUSHOVER_TOKEN || unset -f notifyme-pushover
+    source ~/.PUSHOVER_TOKEN > /dev/null && echo notifyme-pushover || unset -f notifyme-pushover
 }

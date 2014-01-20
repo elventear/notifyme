@@ -1,7 +1,3 @@
-NOTIFYME_IDLE_SEC=60
-
-
-
 function notifyme-remote() {
     for plugin_name in $NOTIFYME_REMOTE; do
         $plugin_name $1 $2
@@ -15,6 +11,7 @@ function notifyme-local() {
 }
 
 function notifyme() {
+    test -z $1 && test -z $2 && return 1
     local NAME=$1
     local MESSAGE=$2
     notifyme-local $NAME $MESSAGE
@@ -41,6 +38,7 @@ function _notifyme-source-plugins() {
     set -A $2 $plugin_names
 }
 
+# init
 function {
     source plugins/is.idle.zsh
     _notifyme-source-plugins 'local' NOTIFYME_LOCAL
