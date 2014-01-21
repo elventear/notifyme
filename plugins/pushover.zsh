@@ -13,5 +13,6 @@ function notifyme-pushover() {
 }
 
 function {
-    _notifyme-exists curl && source ~/.PUSHOVER_TOKEN > /dev/null ||  unset -f notifyme-pushover
+    local TOKEN=~/.PUSHOVER_TOKEN
+    _notifyme-exists curl && _notifyme-exists $TOKEN && source $TOKEN > /dev/null ||  unset -f notifyme-pushover
 }
