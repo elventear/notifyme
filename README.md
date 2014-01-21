@@ -2,7 +2,7 @@
 
 ## Installation
 
-Using [antigen](https://github.com/zsh-users/antigen):
+Using [antigen](https://github.com/zsh-users/antigen) (required):
 
 * In your `~/.zshrc` declare the configuration in the environment variables:
 	* `NOTIFYME_LOCAL`
@@ -12,6 +12,7 @@ Using [antigen](https://github.com/zsh-users/antigen):
 
 followed by the following line to initialize plugin:
 	
+    antigen bundle elventear/notifyme
 
 ## Configuration
 
@@ -40,28 +41,37 @@ Variable containing the amount of seconds that the computer needs to be unused i
 
 ## Usage
 
+To emit a new notification call:
+
+    > notifyme name message 
+
+Where:
+
+* `name`: identifier for the type of event
+* `message: text explaining specific event 
+
 Example `.zshrc`:
-	
+        
+        # Env variables with configuration settings	
 	NOTIFYME_LOCAL=(growl)
 	NOTIFYME_REMOTE=(pushover)
 	NOTIFYME_IDLE=(sleepwatcher)
 	NOTIFYME_IDLE_SECS=60
 	
+        # Initialize antigen bundle
 	antigen bundle elventear/notifyme
-	
-	function gradle {
-    	local reason
-    	local e
-    	$HOME/.gvm/gradle/current/bin/gradle $@ 
-    	e=$?
-    	if [ $e -eq 0 ]; then 
-        	reason=success
-    	else
-        	reason=failure
-    	fi
-    	notifyme gradle "${PWD##*/} $reason: gradle $@"
-    	return $e
-	}
 
-	
-	
+        # Wrapped function that will use notifyme to report return status	
+	function gradle {
+    	    local reason
+    	    local e
+    	    $HOME/.gvm/gradle/current/bin/gradle $@ 
+    	    e=$?
+    	    if [ $e -eq 0 ]; then 
+            	reason=success
+    	    else
+            	reason=failure
+    	    fi
+    	    notifyme gradle "${PWD##*/} $reason: gradle $@"
+    	    return $e
+	}	

@@ -1,3 +1,5 @@
+# OSX only. Uses http://growl.info via growlnotify
+
 function notifyme-growl() {
     growlnotify -n $1 -m $2
 }

@@ -1,3 +1,5 @@
+# OSX only. Uses http://www.bernhard-baehr.de to determine idle time
+
 notifyme-sleepwatcher() {
     echo $(( $(sleepwatcher -g)/10 ))
 }

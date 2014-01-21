@@ -1,3 +1,5 @@
+# Emits http calls to the  https://pushover.net service
+
 function notifyme-pushover() {
     local MESSAGE="$1 $2"
     if [ -n "$PUSHOVER_APP_TOKEN" -a -n "$PUSHOVER_USER_KEY" ]; then
