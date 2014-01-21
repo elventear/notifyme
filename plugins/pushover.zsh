@@ -10,7 +10,6 @@ function notifyme-pushover() {
     fi
 }
 
-# init
-function _notifyme-plugin() {
-    source ~/.PUSHOVER_TOKEN > /dev/null && echo notifyme-pushover || unset -f notifyme-pushover
+function {
+    _notifyme-exists curl && source ~/.PUSHOVER_TOKEN > /dev/null ||  unset -f notifyme-pushover
 }

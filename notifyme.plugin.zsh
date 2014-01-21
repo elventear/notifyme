@@ -1,13 +1,32 @@
 function notifyme-remote() {
+    local plugin_name
+    local plugin_func
     for plugin_name in $NOTIFYME_REMOTE; do
-        $plugin_name $1 $2
+        plugin_func=notifyme-$plugin_name
+        _notifyme-exists $plugin_func || continue
+        $plugin_func $1 $2
     done
 }
 
 function notifyme-local() {
+    local plugin_name
+    local plugin_func
     for plugin_name in $NOTIFYME_LOCAL; do
-        $plugin_name $1 $2
+        plugin_func=notifyme-$plugin_name
+        _notifyme-exists $plugin_func || continue        
+        $plugin_func $1 $2
     done
+}
+
+function notifyme-is-idle() {
+    local plugin_name
+    local plugin_func
+    for plugin_name in $NOTIFYME_IDLE; do
+        plugin_func=notifyme-$plugin_name
+        _notifyme-exists $plugin_func || continue
+        test $($plugin_func) -ge $NOTIFYME_IDLE_SEC && return 0
+    done
+    return 1
 }
 
 function notifyme() {
@@ -15,35 +34,25 @@ function notifyme() {
     local NAME=$1
     local MESSAGE=$2
     notifyme-local $NAME $MESSAGE
-    if _notifyme-is-idle; then
+    if notifyme-is-idle; then
         notify-remote $NAME $MESSAGE
     fi
 }
 
-function _exists {
+function _notifyme-exists {
     whence $1 > /dev/null
-}
-
-function _notifyme-source-plugins() {
-    local plugin_file
-    local -a plugin_names
-
-    for plugin_file in plugins/$1.*.zsh; do
-        source $plugin_file
-        _exists _notifyme-plugin && plugin_names+=($(_notifyme-plugin))
-    done 
-        
-    _exists _notifyme-plugin && unset -f _notifyme-plugin
-
-    set -A $2 $plugin_names
 }
 
 # init
 function {
-    source plugins/is.idle.zsh
-    _notifyme-source-plugins 'local' NOTIFYME_LOCAL
-    _notifyme-source-plugins 'remote' NOTIFYME_REMOTE
+    local plugin
+    for plugin in $NOTIFYME_LOCAL; do
+        source plugins/$plugin.zsh
+    done
+    for plugin in $NOTIFYME_REMOTE; do
+        source plugins/$plugin.zsh
+    done
+    for plugin in $NOTIFYME_IDLE; do
+        source plugins/$plugin.zsh
+    done
 }
-
-unset -f _notifyme-source-plugins
-unset -f _exists

@@ -1,9 +1,7 @@
-_notifyme-get-idle-seconds() {
+notifyme-sleepwatcher() {
     echo $(( $(sleepwatcher -g)/10 ))
 }
 
-_notifyme-is-idle() {
-    test $(get-idle-seconds) -ge $NOTIFYME_IDLE_SEC   
+function {
+    _notifyme-exists sleepwatcher || unset -f notifyme-sleepwatcher
 }
-
-
