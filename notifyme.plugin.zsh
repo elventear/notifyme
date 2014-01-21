@@ -4,7 +4,7 @@ function notifyme-remote() {
     for plugin_name in $NOTIFYME_REMOTE; do
         plugin_func=notifyme-$plugin_name
         _notifyme-exists $plugin_func || continue
-        $plugin_func $1 $2
+        $plugin_func "$1" "$2"
     done
 }
 
@@ -14,7 +14,7 @@ function notifyme-local() {
     for plugin_name in $NOTIFYME_LOCAL; do
         plugin_func=notifyme-$plugin_name
         _notifyme-exists $plugin_func || continue        
-        $plugin_func $1 $2
+        $plugin_func "$1" "$2"
     done
 }
 
@@ -33,9 +33,7 @@ function notifyme-is-idle() {
 
 function notifyme() {
     test -z $1 && test -z $2 && return 1
-    local NAME=$1
-    local MESSAGE=$2
-    notifyme-local $NAME $MESSAGE
+    notifyme-local "$1" "$2" 
     if notifyme-is-idle; then
         notify-remote $NAME $MESSAGE
     fi
