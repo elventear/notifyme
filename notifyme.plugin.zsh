@@ -24,9 +24,11 @@ function notifyme-is-idle() {
     for plugin_name in $NOTIFYME_IDLE; do
         plugin_func=notifyme-$plugin_name
         _notifyme-exists $plugin_func || continue
-        test $($plugin_func) -ge $NOTIFYME_IDLE_SEC && return 0
+        if (( $($plugin_func) -ge $NOTIFYME_IDLE_SEC )); then
+            return 0
+        fi
     done
-    return 1
+    return 1 
 }
 
 function notifyme() {
