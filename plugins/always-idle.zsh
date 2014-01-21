@@ -1,5 +1,5 @@
 # Always idle, useful for testing
 
 notifyme-always-idle() {
-    true
+    echo $(( $NOTIFYME_IDLE_SECS * 10 ))
 }

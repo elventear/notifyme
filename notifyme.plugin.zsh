@@ -31,11 +31,12 @@ function notifyme-is-idle() {
     return 1 
 }
 
+# Usage: notifyme NAME MESSAGE
 function notifyme() {
     test -z $1 && test -z $2 && return 1
     notifyme-local "$1" "$2" 
     if notifyme-is-idle; then
-        notifyme-remote $NAME $MESSAGE
+        notifyme-remote "$1" "$2" 
     fi
 }
 
