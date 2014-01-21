@@ -35,7 +35,7 @@ function notifyme() {
     test -z $1 && test -z $2 && return 1
     notifyme-local "$1" "$2" 
     if notifyme-is-idle; then
-        notify-remote $NAME $MESSAGE
+        notifyme-remote $NAME $MESSAGE
     fi
 }
 
