@@ -45,14 +45,15 @@ function _notifyme-exists {
 
 # init
 function {
+    local plugins=$location/plugins
     local plugin
     for plugin in $NOTIFYME_LOCAL; do
-        source plugins/$plugin.zsh
+        source $plugins/$plugin.zsh
     done
     for plugin in $NOTIFYME_REMOTE; do
-        source plugins/$plugin.zsh
+        source $plugins/$plugin.zsh
     done
     for plugin in $NOTIFYME_IDLE; do
-        source plugins/$plugin.zsh
+        source $plugins/$plugin.zsh
     done
 }
