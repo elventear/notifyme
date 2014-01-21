@@ -48,7 +48,7 @@ To emit a new notification call:
 Where:
 
 * `name`: identifier for the type of event
-* `message: text explaining specific event 
+* `message`: text explaining specific event 
 
 Example `.zshrc`:
         
