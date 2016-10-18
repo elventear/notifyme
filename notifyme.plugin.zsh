@@ -46,6 +46,7 @@ function _notifyme-exists {
 
 # init
 function {
+    local location=$(dirname $1)
     local plugins=$location/plugins
     local plugin
     for plugin in $NOTIFYME_LOCAL; do
@@ -57,4 +58,4 @@ function {
     for plugin in $NOTIFYME_IDLE; do
         source $plugins/$plugin.zsh
     done
-}
+} ${(%):-%N}
